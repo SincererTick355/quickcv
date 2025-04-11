@@ -1,6 +1,5 @@
 function setThemeIcon(isDark) {
     const iconSpan = document.getElementById('theme-icon');
-    // Animated SVGs for sun and moon
     if (isDark) {
         iconSpan.innerHTML = `
             <svg viewBox="0 0 32 32" fill="none">
@@ -27,6 +26,16 @@ function setThemeIcon(isDark) {
     }
 }
 
+// Escape HTML special characters to prevent XSS
+function escapeHTML(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '<')
+        .replace(/>/g, '>')
+        .replace(/"/g, '"')
+        .replace(/'/g, '&#39;');
+}
+
 function setTheme(isDark, animate = true) {
     document.body.classList.toggle('dark-mode', isDark);
     setThemeIcon(isDark);
@@ -48,7 +57,6 @@ function toggleTheme() {
 document.addEventListener('DOMContentLoaded', function() {
     // Theme toggle setup
     const themeBtn = document.getElementById('theme-toggle');
-    // Set initial theme from localStorage or system preference
     let isDark = false;
     if (localStorage.getItem('theme')) {
         isDark = localStorage.getItem('theme') === 'dark';
@@ -64,40 +72,36 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const form = event.target;
-        // Personal Info
-        const name = form.name.value.trim();
-        const email = form.email.value.trim();
-        const phone = form.phone.value.trim();
-        const address = form.address.value.trim();
-        const linkedin = form.linkedin.value.trim();
-        const summary = form.summary.value.trim();
+        // Escape all user input
+        const name = escapeHTML(form.name.value.trim());
+        const email = escapeHTML(form.email.value.trim());
+        const phone = escapeHTML(form.phone.value.trim());
+        const address = escapeHTML(form.address.value.trim());
+        const linkedin = escapeHTML(form.linkedin.value.trim());
+        const summary = escapeHTML(form.summary.value.trim()).replace(/\n/g, '<br>');
 
-        // Education
-        const education_school = form.education_school.value.trim();
-        const education_degree = form.education_degree.value.trim();
-        const education_years = form.education_years.value.trim();
+        const education_school = escapeHTML(form.education_school.value.trim());
+        const education_degree = escapeHTML(form.education_degree.value.trim());
+        const education_years = escapeHTML(form.education_years.value.trim());
 
-        // Work Experience
-        const work_company = form.work_company.value.trim();
-        const work_title = form.work_title.value.trim();
-        const work_years = form.work_years.value.trim();
-        const work_desc = form.work_desc.value.trim();
+        const work_company = escapeHTML(form.work_company.value.trim());
+        const work_title = escapeHTML(form.work_title.value.trim());
+        const work_years = escapeHTML(form.work_years.value.trim());
+        const work_desc = escapeHTML(form.work_desc.value.trim()).replace(/\n/g, '<br>');
 
-        // Other Sections
-        const certifications = form.certifications.value.split(',').map(s => s.trim()).filter(Boolean);
-        const languages = form.languages.value.split(',').map(s => s.trim()).filter(Boolean);
-        const skills = form.skills.value.split(',').map(s => s.trim()).filter(Boolean);
-        const hobbies = form.hobbies.value.split(',').map(s => s.trim()).filter(Boolean);
+        const certifications = form.certifications.value.split(',').map(s => escapeHTML(s.trim())).filter(Boolean);
+        const languages = form.languages.value.split(',').map(s => escapeHTML(s.trim())).filter(Boolean);
+        const skills = form.skills.value.split(',').map(s => escapeHTML(s.trim())).filter(Boolean);
+        const hobbies = form.hobbies.value.split(',').map(s => escapeHTML(s.trim())).filter(Boolean);
 
-        // Build Resume HTML
         let resumeHTML = `
             <h2>${name}</h2>
             <p>
                 ${address ? `<span>${address}</span><br>` : ''}
                 <span>${email}</span> | <span>${phone}</span>
-                ${linkedin ? `<br><a href="${linkedin}" target="_blank" rel="noopener">LinkedIn</a>` : ''}
+                ${linkedin ? `<br><a href="${linkedin}" target="_blank" rel="noopener">${linkedin}</a>` : ''}
             </p>
-            ${summary ? `<h3>Professional Summary</h3><p>${summary.replace(/\n/g, '<br>')}</p>` : ''}
+            ${summary ? `<h3>Professional Summary</h3><p>${summary}</p>` : ''}
             <h3>Education</h3>
             <p>
                 ${education_school ? `<strong>${education_school}</strong>` : ''}
@@ -109,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ${work_company ? `<strong>${work_company}</strong>` : ''}
                 ${work_title ? `, ${work_title}` : ''}
                 ${work_years ? ` (${work_years})` : ''}
-                ${work_desc ? `<br>${work_desc.replace(/\n/g, '<br>')}` : ''}
+                ${work_desc ? `<br>${work_desc}` : ''}
             </p>
             ${certifications.length ? `
                 <h3>Certifications</h3>
@@ -139,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pdfBtn) {
         pdfBtn.addEventListener('click', function() {
             const element = document.getElementById('resume-content');
-            // Save current theme state
             const wasDark = document.body.classList.contains('dark-mode');
             document.body.classList.remove('dark-mode');
             document.body.classList.add('pdf-export');
@@ -154,11 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
                 };
                 html2pdf().set(opt).from(element).save().then(() => {
-                    // Restore theme state
                     document.body.classList.remove('pdf-export');
                     if (wasDark) document.body.classList.add('dark-mode');
                 });
-            }, 200); // 200ms delay to ensure rendering
+            }, 200);
         });
     }
 });
