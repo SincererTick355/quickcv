@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QuickCV - Simple Resume Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-row">
+                <h1>QuickCV</h1>
+                <button id="theme-toggle" aria-label="Toggle light/dark mode">
+                    <span class="theme-icon" id="theme-icon">
+                        <!-- Sun/Moon SVG will be injected by JS for animation -->
+                    </span>
+                </button>
+            </div>
+            <p class="subtitle">Create a beautiful, professional resume in minutes with QuickCV—no sign-up required.</p>
+        </header>
+        <div class="intro-section">
+            <p>
+                Ready to take the next step in your career? QuickCV helps you craft a standout resume with just a few clicks. 
+                Fill in as much or as little as you like—only the information you provide will appear on your resume.
+            </p>
+            <div class="privacy-notice">
+                <strong>Privacy Notice:</strong> <span>Your personal information is never saved or stored. Everything you enter stays on your device and is gone when you close the page.</span>
+            </div>
+        </div>
+        <main>
+            <form id="resume-form">
+                <section>
+                    <h2>Personal Information</h2>
+                    <label>
+                        Full Name:
+                        <input type="text" name="name">
+                    </label>
+                    <label>
+                        Email:
+                        <input type="email" name="email">
+                    </label>
+                    <label>
+                        Phone:
+                        <input type="tel" name="phone">
+                    </label>
+                    <label>
+                        Address:
+                        <input type="text" name="address">
+                    </label>
+                    <label>
+                        LinkedIn:
+                        <input type="url" name="linkedin">
+                    </label>
+                    <label>
+                        Professional Summary:
+                        <textarea name="summary" rows="3" placeholder="Brief summary about yourself"></textarea>
+                    </label>
+                </section>
+                <section>
+                    <h2>Education</h2>
+                    <label>
+                        School/University:
+                        <input type="text" name="education_school">
+                    </label>
+                    <label>
+                        Degree:
+                        <input type="text" name="education_degree">
+                    </label>
+                    <label>
+                        Years Attended:
+                        <input type="text" name="education_years">
+                    </label>
+                </section>
+                <section>
+                    <h2>Work Experience</h2>
+                    <label>
+                        Company:
+                        <input type="text" name="work_company">
+                    </label>
+                    <label>
+                        Job Title:
+                        <input type="text" name="work_title">
+                    </label>
+                    <label>
+                        Years:
+                        <input type="text" name="work_years">
+                    </label>
+                    <label>
+                        Description:
+                        <textarea name="work_desc" rows="2"></textarea>
+                    </label>
+                </section>
+                <section>
+                    <h2>Certifications</h2>
+                    <input type="text" name="certifications" placeholder="Comma separated">
+                </section>
+                <section>
+                    <h2>Languages</h2>
+                    <input type="text" name="languages" placeholder="Comma separated">
+                </section>
+                <section>
+                    <h2>Skills</h2>
+                    <input type="text" name="skills" placeholder="Comma separated">
+                </section>
+                <section>
+                    <h2>Hobbies & Interests</h2>
+                    <input type="text" name="hobbies" placeholder="Comma separated">
+                </section>
+                <button type="submit">Generate Resume</button>
+            </form>
+            <div id="resume-output" style="display:none;">
+                <div class="resume-card" id="resume-content"></div>
+                <button id="download-pdf-btn" type="button">Download as PDF</button>
+                <button onclick="window.print()">Print Resume</button>
+                <button onclick="location.reload()">Create Another</button>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2025 QuickCV</p>
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
