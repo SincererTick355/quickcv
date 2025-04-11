@@ -145,12 +145,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const element = document.getElementById('resume-content');
             const wasDark = document.body.classList.contains('dark-mode');
 
-            // Create a fixed-position clone at the top of the page for PDF export
+            // Create a visible, absolutely positioned clone at the top of the page for PDF export
             const clone = element.cloneNode(true);
-            clone.style.position = 'fixed';
+            clone.style.position = 'absolute';
             clone.style.top = '0';
             clone.style.left = '0';
-            clone.style.margin = '0';
+            clone.style.right = '0';
+            clone.style.margin = '0 auto';
+            clone.style.width = '210mm';
+            clone.style.minHeight = '297mm';
             clone.style.zIndex = '9999';
             clone.style.background = '#fff';
             clone.style.color = '#22223b';
@@ -162,6 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.body.classList.remove('dark-mode');
             document.body.classList.add('pdf-export');
+
+            window.scrollTo(0, 0); // Scroll to top
 
             setTimeout(() => {
                 const opt = {
@@ -177,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (wasDark) document.body.classList.add('dark-mode');
                     document.body.removeChild(clone);
                 });
-            }, 200);
+            }, 500); // Increased delay to ensure rendering
         });
     }
 });
