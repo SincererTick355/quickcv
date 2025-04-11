@@ -144,9 +144,25 @@ document.addEventListener('DOMContentLoaded', function() {
         pdfBtn.addEventListener('click', function() {
             const element = document.getElementById('resume-content');
             const wasDark = document.body.classList.contains('dark-mode');
+
+            // Create a fixed-position clone at the top of the page for PDF export
+            const clone = element.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.top = '0';
+            clone.style.left = '0';
+            clone.style.margin = '0';
+            clone.style.zIndex = '9999';
+            clone.style.background = '#fff';
+            clone.style.color = '#22223b';
+            clone.style.boxShadow = 'none';
+            clone.style.borderColor = '#4f8cff';
+            clone.classList.add('resume-card');
+            clone.id = 'pdf-resume-clone';
+            document.body.appendChild(clone);
+
             document.body.classList.remove('dark-mode');
             document.body.classList.add('pdf-export');
-            element.scrollIntoView({ behavior: "instant", block: "start" });
+
             setTimeout(() => {
                 const opt = {
                     margin:       0,
@@ -156,9 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
                     pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
                 };
-                html2pdf().set(opt).from(element).save().then(() => {
+                html2pdf().set(opt).from(clone).save().then(() => {
                     document.body.classList.remove('pdf-export');
                     if (wasDark) document.body.classList.add('dark-mode');
+                    document.body.removeChild(clone);
                 });
             }, 200);
         });
