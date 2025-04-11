@@ -144,29 +144,22 @@ document.addEventListener('DOMContentLoaded', function() {
         pdfBtn.addEventListener('click', function() {
             const element = document.getElementById('resume-content');
             const wasDark = document.body.classList.contains('dark-mode');
-
-            // Create a visible, absolutely positioned clone at the top of the page for PDF export
-            const clone = element.cloneNode(true);
-            clone.style.position = 'absolute';
-            clone.style.top = '0';
-            clone.style.left = '0';
-            clone.style.right = '0';
-            clone.style.margin = '0 auto';
-            clone.style.width = '210mm';
-            clone.style.minHeight = '297mm';
-            clone.style.zIndex = '9999';
-            clone.style.background = '#fff';
-            clone.style.color = '#22223b';
-            clone.style.boxShadow = 'none';
-            clone.style.borderColor = '#4f8cff';
-            clone.classList.add('resume-card');
-            clone.id = 'pdf-resume-clone';
-            document.body.appendChild(clone);
-
             document.body.classList.remove('dark-mode');
             document.body.classList.add('pdf-export');
 
-            window.scrollTo(0, 0); // Scroll to top
+            // Temporarily move resume-content to top of body and reset margin
+            const originalParent = element.parentNode;
+            const originalNext = element.nextSibling;
+            const originalStyle = element.getAttribute('style') || '';
+            window.scrollTo(0, 0);
+
+            element.style.position = 'static';
+            element.style.margin = '0 auto';
+            element.style.top = '0';
+            element.style.left = '0';
+            element.style.right = '0';
+
+            document.body.insertBefore(element, document.body.firstChild);
 
             setTimeout(() => {
                 const opt = {
@@ -177,12 +170,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
                     pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
                 };
-                html2pdf().set(opt).from(clone).save().then(() => {
+                html2pdf().set(opt).from(element).save().then(() => {
+                    // Restore resume-content to original place and style
+                    if (originalNext) {
+                        originalParent.insertBefore(element, originalNext);
+                    } else {
+                        originalParent.appendChild(element);
+                    }
+                    element.setAttribute('style', originalStyle);
                     document.body.classList.remove('pdf-export');
                     if (wasDark) document.body.classList.add('dark-mode');
-                    document.body.removeChild(clone);
                 });
-            }, 500); // Increased delay to ensure rendering
+            }, 500);
         });
     }
 });
