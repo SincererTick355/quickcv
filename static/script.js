@@ -36,6 +36,18 @@ function escapeHTML(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Apply a selected resume style class to the resume card
+function applyResumeStyle(styleValue) {
+    const card = document.getElementById('resume-content');
+    if (!card) return;
+    // Remove any previously applied style classes (cv-*)
+    const baseClasses = card.className
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter(c => !c.startsWith('cv-'));
+    const styleClass = 'cv-' + (styleValue || 'style-1'); // e.g., "cv-style-1"
+    card.className = (baseClasses.concat(styleClass)).join(' ').trim();
+}
 function setTheme(isDark, animate = true) {
     document.body.classList.toggle('dark-mode', isDark);
     setThemeIcon(isDark);
@@ -67,11 +79,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     themeBtn.addEventListener('click', toggleTheme);
 
+    // Style selector setup (preview + persistence)
+    const styleSelect = document.getElementById('style-select');
+    if (styleSelect) {
+        // Load and apply persisted style if present
+        const stored = localStorage.getItem('resumeStyle');
+        if (stored) {
+            styleSelect.value = stored;
+        }
+        // Apply immediately on load so preview matches selection
+        applyResumeStyle(styleSelect.value);
+        // Update the card if the selection changes (before or after generation)
+        styleSelect.addEventListener('change', () => {
+            localStorage.setItem('resumeStyle', styleSelect.value);
+            applyResumeStyle(styleSelect.value);
+        });
+    }
+
     // Resume builder logic
     document.getElementById('resume-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
         const form = event.target;
+        // Apply style selection to the resume card before rendering
+        const selectedStyle = form.style ? form.style.value : 'style-1';
+        applyResumeStyle(selectedStyle);
         // Escape all user input
         const name = escapeHTML(form.name.value.trim());
         const email = escapeHTML(form.email.value.trim());

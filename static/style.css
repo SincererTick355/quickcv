@@ -368,3 +368,180 @@ body.dark-mode .resume-card h3 {
         display: none !important;
     }
 }
+/* =========================
+   Resume Style Variants (10)
+   ========================= */
+
+/* Base variable-driven styling override (placed at end to take precedence) */
+.resume-card {
+  --accent: #4f8cff;
+  --border-color: var(--accent);
+  --border-width: 2.5px;
+  --radius: 14px;
+  --bg-card: #f9fafb;
+  --h3-bg: rgba(79,140,255,0.07);
+  --rule-thickness: 2px;
+
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  /* Outer elevation + inner outline using current variables */
+  box-shadow: 0 2px 12px rgba(34,34,59,0.07), inset 0 0 0 var(--border-width) var(--border-color);
+}
+
+body.dark-mode .resume-card {
+  /* Respect chosen accent even in dark mode */
+  box-shadow: 0 2px 12px rgba(34,34,59,0.07), inset 0 0 0 var(--border-width) var(--border-color);
+}
+
+.resume-card h2 {
+  border-bottom: var(--rule-thickness) solid var(--accent);
+}
+
+body.dark-mode .resume-card h2 {
+  border-bottom-color: var(--accent);
+}
+
+.resume-card h3 {
+  color: var(--accent);
+  border-left: 4px solid var(--accent);
+  background: var(--h3-bg);
+}
+
+body.dark-mode .resume-card h3 {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--h3-bg);
+}
+
+/* -------- Style 1: Classic Blue (default) -------- */
+.resume-card.cv-style-1 {
+  --accent: #4f8cff;
+  --border-color: #4f8cff;
+  --border-width: 2.5px;
+  --radius: 14px;
+  --bg-card: #f9fafb;
+  --h3-bg: rgba(79,140,255,0.07);
+}
+
+/* -------- Style 2: Midnight (cyan accent, thicker rule) -------- */
+.resume-card.cv-style-2 {
+  --accent: #00bcd4;
+  --border-color: #00bcd4;
+  --border-width: 2px;
+  --radius: 12px;
+  --bg-card: #f8fafc;
+  --h3-bg: rgba(0,188,212,0.07);
+  --rule-thickness: 3px;
+}
+.resume-card.cv-style-2 h2 { letter-spacing: 0.2px; }
+
+/* -------- Style 3: Emerald -------- */
+.resume-card.cv-style-3 {
+  --accent: #10b981;
+  --border-color: #10b981;
+  --border-width: 2.5px;
+  --radius: 16px;
+  --bg-card: #f0fdf4;
+  --h3-bg: rgba(16,185,129,0.08);
+}
+
+/* -------- Style 4: Sunset (warm orange) -------- */
+.resume-card.cv-style-4 {
+  --accent: #f97316;
+  --border-color: #f97316;
+  --border-width: 2.5px;
+  --radius: 18px;
+  --bg-card: #fff7ed;
+  --h3-bg: rgba(249,115,22,0.1);
+}
+
+/* -------- Style 5: Crimson -------- */
+.resume-card.cv-style-5 {
+  --accent: #ef4444;
+  --border-color: #ef4444;
+  --border-width: 2px;
+  --radius: 10px;
+  --bg-card: #fef2f2;
+  --h3-bg: rgba(239,68,68,0.1);
+}
+
+/* -------- Style 6: Slate Minimal -------- */
+.resume-card.cv-style-6 {
+  --accent: #475569;
+  --border-color: #475569;
+  --border-width: 2px;
+  --radius: 6px;
+  --bg-card: #f8fafc;
+  --h3-bg: transparent; /* no background behind h3 */
+}
+.resume-card.cv-style-6 { box-shadow: inset 0 0 0 var(--border-width) var(--border-color); } /* minimal elevation */
+
+/* -------- Style 7: Violet Stripe (left accent bar) -------- */
+.resume-card.cv-style-7 {
+  --accent: #8b5cf6;
+  --border-color: #8b5cf6;
+  --border-width: 2.5px;
+  --radius: 14px;
+  --bg-card: #faf5ff;
+  --h3-bg: rgba(139,92,246,0.1);
+}
+.resume-card.cv-style-7::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: var(--accent);
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+
+/* -------- Style 8: Teal Rounded -------- */
+.resume-card.cv-style-8 {
+  --accent: #14b8a6;
+  --border-color: #14b8a6;
+  --border-width: 2.5px;
+  --radius: 20px;
+  --bg-card: #f0fdfa;
+  --h3-bg: rgba(20,184,166,0.1);
+}
+
+/* -------- Style 9: Amber Dashed (real dashed border) -------- */
+.resume-card.cv-style-9 {
+  --accent: #f59e0b;
+  --border-color: #f59e0b;
+  --radius: 12px;
+  --bg-card: #fffbeb;
+  --h3-bg: rgba(245,158,11,0.12);
+  /* Replace inset outline with a dashed border */
+  box-shadow: 0 2px 12px rgba(34,34,59,0.07);
+  border: 2px dashed var(--border-color);
+}
+
+/* -------- Style 10: Monochrome (sharp, no elevation) -------- */
+.resume-card.cv-style-10 {
+  --accent: #111827;
+  --border-color: #111827;
+  --border-width: 1.5px;
+  --radius: 4px;
+  --bg-card: #ffffff;
+  --h3-bg: transparent;
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color); /* no outer shadow */
+}
+.resume-card.cv-style-10 h2 { text-transform: uppercase; letter-spacing: 0.4px; }
+
+/* Print/PDF overrides to ensure a single crisp outline using current variables */
+@media print {
+  .resume-card {
+    box-shadow: none !important;
+    border: 1.5px solid var(--border-color) !important;
+  }
+}
+body.pdf-export .resume-card {
+  box-shadow: none !important;
+  border: 1.5px solid var(--border-color) !important;
+  /* Fit inside 12mm pdf margins (set in script) */
+  width: 186mm !important;
+  min-height: 273mm !important;
+}
