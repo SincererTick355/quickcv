@@ -17,7 +17,15 @@ body.pdf-export .resume-card * {
     background: #fff !important;
     color: #22223b !important;
     border-color: #4f8cff !important;
+}
+
+body.pdf-export .resume-card * {
     box-shadow: none !important;
+}
+
+body.pdf-export .resume-card {
+    /* Keep the visible blue border when exporting to PDF */
+    box-shadow: inset 0 0 0 2.5px #4f8cff !important;
 }
 
 .container {
@@ -232,8 +240,8 @@ button[type="submit"]:hover, #resume-output button:hover, #download-pdf-btn:hove
 .resume-card {
     background: #f9fafb;
     border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(34,34,59,0.07);
-    border: 2.5px solid #4f8cff;
+    /* Use inset box-shadow to render a reliable visible border in all browsers */
+    box-shadow: 0 2px 12px rgba(34,34,59,0.07), inset 0 0 0 2.5px #4f8cff;
     /* A4 size: 210mm x 297mm = 8.27in x 11.69in */
     width: 210mm;
     min-height: 297mm;
@@ -250,7 +258,8 @@ button[type="submit"]:hover, #resume-output button:hover, #download-pdf-btn:hove
 body.dark-mode .resume-card {
     background: #16161a;
     color: #f4f4f4;
-    border: 2.5px solid #00bcd4;
+    /* Override inset border color for dark mode */
+    box-shadow: 0 2px 12px rgba(34,34,59,0.07), inset 0 0 0 2.5px #00bcd4;
 }
 
 .resume-card h2 {
@@ -341,7 +350,8 @@ body.dark-mode .resume-card h3 {
     .resume-card {
         width: 210mm !important;
         min-height: 297mm !important;
-        box-shadow: none !important;
+        /* Use inset border for print to ensure consistent rendering */
+        box-shadow: inset 0 0 0 2.5px #4f8cff !important;
         background: #fff !important;
         color: #22223b !important;
         border: 2.5px solid #4f8cff !important;
