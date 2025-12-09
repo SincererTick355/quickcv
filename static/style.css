@@ -24,8 +24,14 @@ body.pdf-export .resume-card * {
 }
 
 body.pdf-export .resume-card {
-    /* Keep the visible blue border when exporting to PDF */
-    box-shadow: inset 0 0 0 2.5px #4f8cff !important;
+    /* Use a crisp real border for PDF to avoid soft/double edges from canvas */
+    box-shadow: none !important;
+    border: 1.5px solid #4f8cff !important;
+
+    /* Match the inner page size = A4 (210mm) - margins set in html2pdf (12mm*2) = 186mm.
+       This prevents scaling that can make the border look thick or fuzzy. */
+    width: 186mm !important;
+    min-height: 273mm !important; /* 297mm - 24mm */
 }
 
 .container {
@@ -350,11 +356,11 @@ body.dark-mode .resume-card h3 {
     .resume-card {
         width: 210mm !important;
         min-height: 297mm !important;
-        /* Use inset border for print to ensure consistent rendering */
-        box-shadow: inset 0 0 0 2.5px #4f8cff !important;
+        /* For print, use a standard border for sharp edges and no shadow */
+        box-shadow: none !important;
+        border: 1.5px solid #4f8cff !important;
         background: #fff !important;
         color: #22223b !important;
-        border: 2.5px solid #4f8cff !important;
         padding: 32px 36px !important;
         margin: 0 !important;
     }
