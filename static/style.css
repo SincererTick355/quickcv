@@ -26,12 +26,11 @@ body.pdf-export .resume-card * {
 body.pdf-export .resume-card {
     /* Use a crisp real border for PDF to avoid soft/double edges from canvas */
     box-shadow: none !important;
-    border: 1.5px solid #4f8cff !important;
+    border: 3px solid #4f8cff !important;
 
-    /* Match the inner page size = A4 (210mm) - margins set in html2pdf (12mm*2) = 186mm.
-       This prevents scaling that can make the border look thick or fuzzy. */
-    width: 186mm !important;
-    min-height: 273mm !important; /* 297mm - 24mm */
+    /* Shrink the card inside the page for more breathing room */
+    width: 176mm !important;
+    min-height: 270mm !important;
 }
 
 .container {
@@ -358,7 +357,7 @@ body.dark-mode .resume-card h3 {
         min-height: 297mm !important;
         /* For print, use a standard border for sharp edges and no shadow */
         box-shadow: none !important;
-        border: 1.5px solid #4f8cff !important;
+        border: 3px solid var(--border-color) !important;
         background: #fff !important;
         color: #22223b !important;
         padding: 32px 36px !important;
@@ -540,8 +539,8 @@ body.dark-mode .resume-card h3 {
 }
 body.pdf-export .resume-card {
   box-shadow: none !important;
-  border: 1.5px solid var(--border-color) !important;
-  /* Fit inside 12mm pdf margins (set in script) */
-  width: 186mm !important;
-  min-height: 273mm !important;
+  border: 3px solid var(--border-color) !important;
+  /* Shrink inside 12mm pdf margins (set in script) */
+  width: 176mm !important;
+  min-height: 270mm !important;
 }

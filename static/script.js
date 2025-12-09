@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const opt = {
                     // Add page margins so the card border doesn't sit on the page edge in the PDF
                     // Unit follows jsPDF unit (mm)
-                    margin:       12,
+                    margin:       18,
                     filename:     'QuickCV-Resume.pdf',
                     image:        { type: 'jpeg', quality: 0.98 },
                     html2canvas:  { scale: 2, useCORS: true, backgroundColor: "#fff" },
